@@ -1,0 +1,77 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Simple Encryption</title>
+  <meta name="description" content="A very simplistic encryption algorithm">
+  <meta name="author" content="Seth Webster">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link type="text/css" rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <script type='text/javascript' src='https://code.jquery.com/jquery-2.2.0.min.js'></script>
+  <script type='text/javascript' src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="http://www.myersdaily.org/joseph/javascript/md5.js"></script>
+  <script src='assets/js/enc.js'></script>
+  <script type='text/javascript'>
+    function encrypt() {
+      var e = new encryptor(document.getElementById("cypherString").value);
+      var el = document.getElementById("text");
+      el.value = e.encrypt(el.value);
+    }
+
+    function decrypt() {
+      var e = new encryptor(document.getElementById("cypherString").value);
+      var el = document.getElementById("text");
+      el.value = e.decrypt(el.value);
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Simple Encrypt/Decrypt</a>
+        </div>
+      </div><!-- /.container-fluid -->
+    </nav>
+  </header>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-xs-12'>
+        <form onsubmit="return false()">
+          <div class='form-group'>
+            <label>
+              Text to Encrypt/Decrypt:
+            </label>
+            <textarea class='form-control' id='text' 
+                      name='text' rows='20'>Here is some text to get you started</textarea>
+          </div>
+          <div class='form-group'>
+            <label>Key String:</label>
+            <input type='text' id='cypherString' 
+                   name='cypherString' value='password' 
+                   placeholder='enter a text to encrypt the data with' 
+                   class='form-control'/>
+          </div>
+          <button class='btn btn-default btn-primary' onclick='encrypt();return false;'>Encrypt</button>
+          <button class='btn btn-default' onclick='decrypt(); return false;'>Decrypt</button>
+        </form>      
+      </div>
+    </div>
+  </div>
+    
+</body>
+</html>
