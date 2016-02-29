@@ -15,20 +15,7 @@
   <script type='text/javascript' src='https://code.jquery.com/jquery-2.2.0.min.js'></script>
   <script type='text/javascript' src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="http://www.myersdaily.org/joseph/javascript/md5.js"></script>
-  <script src='assets/js/enc.js'></script>
-  <script type='text/javascript'>
-    function encrypt() {
-      var e = new encryptor(document.getElementById("cypherString").value);
-      var el = document.getElementById("text");
-      el.value = e.encrypt(el.value);
-    }
-
-    function decrypt() {
-      var e = new encryptor(document.getElementById("cypherString").value);
-      var el = document.getElementById("text");
-      el.value = e.decrypt(el.value);
-    }
-  </script>
+  <script src='assets/js/app.js'></script>
 </head>
 
 <body>
@@ -51,23 +38,23 @@
   <div class='container'>
     <div class='row'>
       <div class='col-xs-12'>
-        <form onsubmit="return false()">
+        <form onsubmit="return false;">
           <div class='form-group'>
             <label>
               Text to Encrypt/Decrypt:
             </label>
             <textarea class='form-control' id='text' 
-                      name='text' rows='20'>Here is some text to get you started</textarea>
+                      name='text' rows='20' placeholder="Enter text to encrypt here"></textarea>
           </div>
-          <div class='form-group'>
+          <div class='form-group' id='cypher-string-wrapper'>
             <label>Key String:</label>
-            <input type='text' id='cypherString' 
-                   name='cypherString' value='password' 
+            <input type='text' id='cypher-string-input' 
+                   name='cypherString' value='' 
                    placeholder='enter a text to encrypt the data with' 
                    class='form-control'/>
           </div>
-          <button class='btn btn-default btn-primary' onclick='encrypt();return false;'>Encrypt</button>
-          <button class='btn btn-default' onclick='decrypt(); return false;'>Decrypt</button>
+          <button class='btn btn-default btn-primary' id='btn-encrypt'>Encrypt</button>
+          <button class='btn btn-default' id='btn-decrypt'>Decrypt</button>
         </form>      
       </div>
     </div>

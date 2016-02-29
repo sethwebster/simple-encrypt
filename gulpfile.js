@@ -17,7 +17,7 @@ var outputs = {
   'dist'      : 'dist',
   'css'       : 'dist/assets/css',
   'js'        : 'dist/assets/js',
-  'bundlefile': 'enc.js'
+  'bundlefile': 'app.js'
 }
 
 // define the default task and add the watch task to it
