@@ -22,6 +22,7 @@ var outputs = {
 
 // define the default task and add the watch task to it
 gulp.task('default', ['watch']);
+gulp.task('production', ['build-js','build-css','build-html']);
 
 gulp.task('jshint', function() {
   return gulp.src(inputs.js)

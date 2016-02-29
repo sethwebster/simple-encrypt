@@ -11,7 +11,8 @@
     "url": "git@github.com:sethwebster/simple-encrypt.git"
   },  
   "scripts": {
-    "test": "tests/test-runner.html"
+    "test": "tests/test-runner.html",
+    "postinstall": "gulp production"
   },
   "author": {
     "name": "Seth Webster",
