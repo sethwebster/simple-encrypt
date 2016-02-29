@@ -6,10 +6,17 @@
   "directories": {
     "test": "tests"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sethwebster/simple-encrypt.git"
+  },  
   "scripts": {
     "test": "tests/test-runner.html"
   },
-  "author": "",
+  "author": {
+    "name": "Seth Webster",
+    "url": "https://github.com/sethwebster/simple-encrypt.git",
+  },  
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.0",
@@ -20,6 +27,7 @@
     "gulp-sass": "^2.1.1",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
+    "gulp-useref": "^3.0.7",
     "gulp-util": "^3.0.7",
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.1.0",
