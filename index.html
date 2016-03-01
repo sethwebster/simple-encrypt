@@ -41,7 +41,7 @@
         <form onsubmit="return false;">
           <div class='form-group'>
             <label>
-              Text to Encrypt/Decrypt:
+              Text to Encrypt/Decrypt: <span id="stats">0</span> Characters
             </label>
             <textarea class='form-control' id='text' 
                       name='text' rows='20' placeholder="Enter text to encrypt here"></textarea>
@@ -55,6 +55,14 @@
           </div>
           <button class='btn btn-default btn-primary' id='btn-encrypt'>Encrypt</button>
           <button class='btn btn-default' id='btn-decrypt'>Decrypt</button>
+          <div class="btn-group pull-right" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="options" id="encoding-off" autocomplete="off" checked> Raw
+            </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" id="encoding-base64" autocomplete="off"> Base 64
+            </label>            
+          </div>
         </form>      
       </div>
     </div>
