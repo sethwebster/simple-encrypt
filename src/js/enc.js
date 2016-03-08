@@ -38,3 +38,47 @@ var SimpleEncrypt = function(key) {
     });
   }
 }
+
+var RSAEncrypt = function() {
+  this.values = {
+    p: 0,
+    q: 0,
+    e: 0,
+    n: 0, //phi
+    primes: []
+  }
+
+  this.generateValues = function() {
+    if (this.primes.length == 0) {
+      this.primes = this.generatePrimes(100000, 2048);
+    }
+  }
+
+  this.isPrime = function(n) {
+    if (n === 1 || n === 0) {
+      return false;
+    }
+    for(var i = 2;i < n; i++) {
+      if (n % i === 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  this.generatePrimes = function(howMany,startAt) {
+    while (!this.isPrime(startAt)) {
+      startAt += 1;
+    }
+    var ret = [startAt];
+    var curr = startAt;
+    for(var i = 0;i < howMany - 1; i++) {
+      do {
+        curr += 1;
+      }
+      while (!this.isPrime(curr));
+      ret.push(curr);
+    }
+    return ret;
+  }  
+}
