@@ -50,7 +50,7 @@ var RSAEncrypt = function() {
 
   this.generateValues = function() {
     if (this.primes.length == 0) {
-      this.primes = this.generatePrimes(100000, 2048);
+      this.primes = this.generatePrimes(10000, 1000000);
     }
   }
 
@@ -81,4 +81,33 @@ var RSAEncrypt = function() {
     }
     return ret;
   }  
+
+  this.extended_euclidian = function (phi, e) {
+    var lv = phi, rv = phi, lsv = e, rsv = 1;
+    var le = 0;
+    var lt, rt = 0;
+    do {
+      var ldiv = Math.floor(lv/lsv);
+      var lmult = ldiv * lsv;
+      var rmult = ldiv * rsv;
+      var ldiff = lv - lmult;
+      var rdiff = rv - rmult;
+      var swpLsv = lsv,
+          swpRsv = rsv;
+      lsv = ldiff;
+      rsv = rdiff;
+      lv = swpLsv;
+      rv = swpRsv;  
+      
+      if (rsv < 0) {
+        rsv = rsv + phi;
+      }
+    }
+    while(lsv > 1);
+  }
+
+  this.gcd = function gcd(a, b) {
+    return b ? gcd(b, a % b) : a;
+  }
+
 }
