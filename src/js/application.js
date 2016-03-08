@@ -68,4 +68,8 @@ $(document).ready(function() {
   $('#text').bind('input propertychange', function() {
     updateStats();
   });
+  var r = new RSAEncrypt();
+  r.init();
+  
 });
+

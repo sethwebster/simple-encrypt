@@ -43,18 +43,40 @@ var RSAEncrypt = function() {
   this.values = {
     p: 0,
     q: 0,
-    e: 0,
-    n: 0, //phi
+    e: 3,
+    n: 0, 
+    d: 0,
+    phi: 0,
     primes: []
-  }
+  };
 
-  this.generateValues = function() {
-    if (this.primes.length == 0) {
-      this.primes = this.generatePrimes(10000, 1000000);
+  this.initialized = false;
+
+  this.init = function () {
+    if (this.initalized) {
+      return;
     }
+    this._generateValues();
+    console.log(this.values);
   }
 
-  this.isPrime = function(n) {
+
+
+  this._generateValues = function() {
+    if (this.values.primes.length == 0) {
+      this.values.primes = this._generatePrimes(1000, 1000000);
+    }
+    this.values.p = this.values.primes[Math.floor(Math.random() * this.values.primes.length) + 0]
+    this.values.q = this.values.p;
+    while (this.values.p == this.values.q) {
+      this.values.q = this.values.primes[Math.floor(Math.random() * this.values.primes.length) + 0];
+    }
+    this.values.n = this.values.p * this.values.q;
+    this.values.phi = (this.values.p-1)*(this.values.q-1);
+    this.values.d = this._extendedEuclidian(this.values.phi, this.values.e);
+  }
+
+  this._isPrime = function(n) {
     if (n === 1 || n === 0) {
       return false;
     }
@@ -66,8 +88,9 @@ var RSAEncrypt = function() {
     return true;
   }
 
-  this.generatePrimes = function(howMany,startAt) {
-    while (!this.isPrime(startAt)) {
+  this._generatePrimes = function(howMany,startAt) {
+    console.info("Generating "+howMany+" Primes...");
+    while (!this._isPrime(startAt)) {
       startAt += 1;
     }
     var ret = [startAt];
@@ -76,22 +99,21 @@ var RSAEncrypt = function() {
       do {
         curr += 1;
       }
-      while (!this.isPrime(curr));
+      while (!this._isPrime(curr));
       ret.push(curr);
     }
+    console.info("Generated "+howMany+" Primes...");
     return ret;
   }  
 
-  this.extended_euclidian = function (phi, e) {
+  this._extendedEuclidian = function (phi, e) {
     var lv = phi, rv = phi, lsv = e, rsv = 1;
     var le = 0;
     var lt, rt = 0;
     do {
       var ldiv = Math.floor(lv/lsv);
-      var lmult = ldiv * lsv;
-      var rmult = ldiv * rsv;
-      var ldiff = lv - lmult;
-      var rdiff = rv - rmult;
+      var ldiff = lv - (ldiv * lsv);
+      var rdiff = rv - (ldiv * rsv);
       var swpLsv = lsv,
           swpRsv = rsv;
       lsv = ldiff;
@@ -104,10 +126,12 @@ var RSAEncrypt = function() {
       }
     }
     while(lsv > 1);
+    return rsv;
   }
 
   this.gcd = function gcd(a, b) {
     return b ? gcd(b, a % b) : a;
   }
+
 
 }
