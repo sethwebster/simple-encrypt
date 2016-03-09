@@ -57,23 +57,36 @@ var RSAEncrypt = function() {
       return;
     }
     this._generateValues();
+    this.initialized = true;
     console.log(this.values);
   }
 
+  this._nextRandom = function(min, max) {
+    return Math.floor(Math.random() * max) + min;
+  }
 
+  this._randomPrime = function() {
+    return this.values.primes[this._nextRandom(0, this.values.primes.length)];
+  }
 
   this._generateValues = function() {
     if (this.values.primes.length == 0) {
-      this.values.primes = this._generatePrimes(1000, 1000000);
+      this.values.primes = this._generatePrimes(500, 500, 1000);
     }
-    this.values.p = this.values.primes[Math.floor(Math.random() * this.values.primes.length) + 0]
-    this.values.q = this.values.p;
+    this.values.p = this._randomPrime();
+    this.values.q = this._randomPrime();
     while (this.values.p == this.values.q) {
       this.values.q = this.values.primes[Math.floor(Math.random() * this.values.primes.length) + 0];
     }
     this.values.n = this.values.p * this.values.q;
     this.values.phi = (this.values.p-1)*(this.values.q-1);
     this.values.d = this._extendedEuclidian(this.values.phi, this.values.e);
+
+    if ((this.values.e * this.values.d) % this.values.phi !== 1) {
+      console.log(this.values);
+      throw "Failed validation"
+    }
+
   }
 
   this._isPrime = function(n) {
@@ -88,46 +101,54 @@ var RSAEncrypt = function() {
     return true;
   }
 
-  this._generatePrimes = function(howMany,startAt) {
+  this._generatePrimes = function(howMany, min, max) {
     console.info("Generating "+howMany+" Primes...");
-    while (!this._isPrime(startAt)) {
-      startAt += 1;
-    }
-    var ret = [startAt];
-    var curr = startAt;
-    for(var i = 0;i < howMany - 1; i++) {
-      do {
-        curr += 1;
+    
+    var ret = [];
+    while(ret.length < howMany) {
+      var n = this._nextRandom(min,max);
+      n = this._nudgePrime(n);
+      if (n < max) {
+        ret.push(n);
       }
-      while (!this._isPrime(curr));
-      ret.push(curr);
     }
     console.info("Generated "+howMany+" Primes...");
     return ret;
   }  
+
+  this._nudgePrime = function(n) {
+    do {
+        n += 1;
+    }
+    while (!this._isPrime(n));
+    return n;
+  }
 
   this._extendedEuclidian = function (phi, e) {
     var lv = phi, rv = phi, lsv = e, rsv = 1;
     var le = 0;
     var lt, rt = 0;
     do {
+      console.log('start',lv,rv,lsv,rsv);
       var ldiv = Math.floor(lv/lsv);
       var ldiff = lv - (ldiv * lsv);
       var rdiff = rv - (ldiv * rsv);
+      console.log("ldiv:"+ldiv, "ldiff:"+ldiff, "rdiff:"+rdiff);
       var swpLsv = lsv,
           swpRsv = rsv;
       lsv = ldiff;
       rsv = rdiff;
       lv = swpLsv;
       rv = swpRsv;  
-      
-      if (rsv < 0) {
-        rsv = rsv + phi;
+      console.log("lv:"+lv, "rv:"+rv, "lsv:"+lsv, "rsv:"+rsv);
+      while(rsv < 0) {
+        console.log('nidgin');
+        rsv += phi;
       }
     }
     while(lsv > 1);
     return rsv;
-  }
+  };
 
   this.gcd = function gcd(a, b) {
     return b ? gcd(b, a % b) : a;
